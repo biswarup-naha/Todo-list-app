@@ -9,8 +9,8 @@ RUN bun install
 COPY . .
 
 ENV PORT=5000
-ENV ATLAS_URI=mongodb+srv://jeeeeet6902:<password>@cluster0.zqnzu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-ENV JWT_SECRET=cApSiTeChTaSk-5
+ENV ATLAS_URI=mongodb+srv://jeeeeet6902:1G19rtOxsnPimXsX@cluster0.ib6ix.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 
+ENV JWT_SECRET=20capsitechTask_V25
 
 EXPOSE 5000
 
