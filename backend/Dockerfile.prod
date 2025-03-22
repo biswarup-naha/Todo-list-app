@@ -1,0 +1,17 @@
+FROM oven/bun:1 AS base
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN bun install
+
+COPY . .
+
+ENV PORT=5000
+# ENV ATLAS_URI=
+# ENV JWT_SECRET=
+
+EXPOSE 5000
+
+CMD ["bun", "run", "start"]
