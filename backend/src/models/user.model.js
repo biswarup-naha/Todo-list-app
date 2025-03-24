@@ -31,6 +31,15 @@ userSchema.pre("validate", function (next) {
     }
 });
 
+userSchema.methods.validator = function (next) {
+    try {
+        userZodSchema.parse(this.toObject());
+        next();
+    } catch (error) {
+        next(new Error(error.errors.map((e) => e.message).join(", ")));
+    }
+}
+
 userSchema.methods.generateHashedPassword = async function () {
     const user = this;
     const salt = await bcrypt.genSalt(10);
