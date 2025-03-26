@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
         phone: { type: String, required: true, unique: true },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
+        
     },
     { timestamps: true }
 );
@@ -31,14 +32,6 @@ userSchema.pre("validate", function (next) {
     }
 });
 
-userSchema.methods.validator = function (next) {
-    try {
-        userZodSchema.parse(this.toObject());
-        next();
-    } catch (error) {
-        next(new Error(error.errors.map((e) => e.message).join(", ")));
-    }
-}
 
 userSchema.methods.generateHashedPassword = async function () {
     const user = this;
