@@ -1,10 +1,15 @@
 import { z } from 'zod';
+import mongoose from 'mongoose';
+
+const objectIdSchema = z
+    .string()
+    .refine((id) => mongoose.Types.ObjectId.isValid(id), { message: 'Invalid ObjectId' });
 
 const todoSchema = z.object({
     title: z.string({ required_error: 'Title is required' }),
-    description: z.string({ required_error: 'Description is required' }),
-    status: z.enum(['pending', 'completed', 'deleted']),
-    user: z.string({ required_error: 'User is required' }),
+    description: z.string().optional(),
+    status: z.enum(['pending', 'completed', 'deleted'], { required_error: 'Status must be set' }),
+    user: objectIdSchema, 
 });
 
 export default todoSchema;

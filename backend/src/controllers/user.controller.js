@@ -1,4 +1,3 @@
-import { verifyAuth } from "../middlewares/auth.middleware.js";
 import { User } from "../models/user.model.js";
 import { generateToken } from "../utils/token.js";
 
