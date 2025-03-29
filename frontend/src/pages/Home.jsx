@@ -7,7 +7,7 @@ const Home = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-6">
             <header className="text-center mb-10">
-                <h1 className="text-[150px] max-md:text-7xl font-extrabold text-blue-400">TaskGrid</h1>
+                <h1 className="text-[150px] max-md:text-7xl font-extrabold text-purple-500">Task<span className="text-white">Grid</span></h1>
                 <p className="text-lg text-gray-400">Streamline your tasks with ease.</p>
             </header>
 
@@ -17,7 +17,7 @@ const Home = () => {
                 </p>
                 <a
                     href="/auth"
-                    className="px-6 py-3 bg-blue-500 text-white text-lg rounded-lg shadow-md hover:bg-blue-600 transition-all"
+                    className="px-6 py-3 bg-purple-600 text-white text-lg rounded-lg shadow-md hover:bg-purple-800 transition-all"
                 >
                     Get Started
                 </a>
