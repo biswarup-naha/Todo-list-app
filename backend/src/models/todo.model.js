@@ -22,3 +22,4 @@ todoSchema.pre("validate", function (next) {
 });
 
 export const Todo = mongoose.model('Todo', todoSchema);
+
