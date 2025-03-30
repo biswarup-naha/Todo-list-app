@@ -38,14 +38,14 @@ export const loginUser = async (req, res) => {
     try {
         const { phone, email, password } = req.body;
         if (!email || !phone || !password) {
-            return res.status(400).json({ success: false, message: "All fields are required" });
+            return res.status(200).json({ success: false, message: "All fields are required" });
         }
-        const user = await User.findOne({ $and:[{email,phone}] });
+        const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ success: false, message: "Please enter a registered email or phone number" });
+            return res.status(200).json({ success: false, message: "Please enter a registered email or phone number" });
         }
         if (!(await user.validatePassword(password))) {
-            return res.status(400).json({ success: false, message: "Please enter the correct password" });
+            return res.status(200).json({ success: false, message: "Please enter the correct password" });
         }
         else {
             const token = generateToken(user);

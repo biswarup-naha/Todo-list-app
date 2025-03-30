@@ -1,4 +1,3 @@
-import { truncates } from "bcryptjs";
 import { Todo } from "../models/todo.model.js";
 
 export const createTodo = async (req, res) => {
@@ -14,7 +13,7 @@ export const createTodo = async (req, res) => {
 }
 
 export const getTodo = async (req, res) => {
-    const userId = req.user._id.toString();
+    const userId = req.user._id;
     try {
         const todo = await Todo.find({ user: userId });
         res.status(200).json({ success: true, message: "todos fetched", todo });
@@ -23,9 +22,10 @@ export const getTodo = async (req, res) => {
     }
 }
 
+
 export const getTodoById = async (req, res) => {
     const { id } = req.params;
-    const userId = req.user;
+    const userId = req.user._id;
 
     try {
         const todo = await Todo.findOne({ _id: id, user: userId });

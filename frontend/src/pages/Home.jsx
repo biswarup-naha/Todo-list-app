@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {motion} from 'framer-motion'
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -15,12 +16,11 @@ const Home = () => {
                 <p className="text-lg max-md:text-md mb-6">
                     Organize, track, and complete your daily tasks efficiently with our intuitive To-Do App.
                 </p>
-                <a
-                    href="/auth"
+                <Link to="/auth"
                     className="px-6 py-3 bg-purple-600 text-white text-lg rounded-lg shadow-md hover:bg-purple-800 transition-all"
                 >
                     Get Started
-                </a>
+                </Link>
             </main>
 
             <footer className="absolute bottom-5 text-gray-500 text-sm">
