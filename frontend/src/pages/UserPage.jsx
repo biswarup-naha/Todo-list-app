@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar.jsx';
 
 const UserPage = () => {
   const navigate = useNavigate();
-  const { authenticated } = useContext(AuthContext);
+  const { authenticated, user } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authenticated) navigate("/")
@@ -14,7 +14,7 @@ const UserPage = () => {
   return (
     authenticated && <div>
       <Navbar name="Log out" path="/user" logout={true} />
-      UserPage
+      <h1 className='text-3xl text-center p-6'>Welcome { user.name }!!</h1>
     </div >
 )}
 

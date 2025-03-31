@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContextApi";
 import axios from 'axios'
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export function Login({ setIsLogin }) {
     const {
@@ -17,6 +18,8 @@ export function Login({ setIsLogin }) {
         setUser
     } = useContext(AuthContext);
 
+    const navigate = useNavigate();
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -28,19 +31,13 @@ export function Login({ setIsLogin }) {
                 });
 
             // console.log(res.data)
-            if (res.data.success) {
-                setUser(res.data.data);
-                setAuthenticated(true);
-                toast.success("User logged in")
-                // console.log("User authenticated:", authenticated); 
-            }
-            else {
-                //toast success false and error
-                toast.error(res.data.message);
-            }
+            setUser(res.data.data);
+            setAuthenticated(true);
+            toast.success("User logged in")
+            navigate("/user")
         } catch (error) {
-            //toast error connecting backend
-            toast.error(error.name)
+            console.log(error)
+            toast.error(error.response.data.message)
         }
     };
 
@@ -53,21 +50,21 @@ export function Login({ setIsLogin }) {
                     placeholder="Email"
                     className="w-full p-3 rounded-md  mb-3 focus:outline-none"
                     onChange={(e) => setEmail(e.target.value)}
-                    required
+                    
                 />
                 <input
                     type="phone"
                     placeholder="Phone no."
                     className="w-full p-3 rounded-md  mb-3 focus:outline-none"
                     onChange={(e) => setPhone(e.target.value)}
-                    required
+                    
                 />
                 <input
                     type="password"
                     placeholder="Password"
                     className="w-full p-3 rounded-md  mb-3 focus:outline-none"
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    
                 />
                 <button
                     type="submit"

@@ -21,13 +21,12 @@ export function Register({ setIsLogin }) {
                 email,
                 password,
             });
-
             setUser(res.data.data);
             setAuthenticated(true);
             toast.success("User registered successfully");
-            setIsLogin(true); // Redirect to login page after successful registration
+            setIsLogin(true); 
         } catch (error) {
-            toast.error(error.response?.data?.message || "Registration failed");
+            toast.error(error.response.data.message)
         }
     };
 
