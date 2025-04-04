@@ -1,5 +1,6 @@
 import { User } from "../models/user.model.js";
 import { generateToken } from "../utils/token.js";
+import jwt from 'jsonwebtoken';
 
 const cookieOptions = {
     httpOnly: true,
@@ -22,6 +23,7 @@ export const registerUser = async (req, res) => {
         if (user) {
             const token = generateToken(user);
             const data = {
+                _id: user._id,
                 name:user.name,
                 phone:user.phone,
                 email:user.email
@@ -50,6 +52,7 @@ export const loginUser = async (req, res) => {
         else {
             const token = generateToken(user);
             const data = {
+                _id: user._id,
                 name: user.name,
                 phone: user.phone,
                 email: user.email
@@ -68,3 +71,26 @@ export const logoutUser = async (req, res) => {
         res.status(500).json({ success: false, message: error?.message || "Internal server error" });
     }
 }
+
+export const verify = async (req, res) => {
+    try {
+        const token = req.cookies.authToken;
+
+        if (!token) {
+            return res.status(401).json({ success: false, message: "No token provided" });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const user = await User.findById(decoded._id).select("-password");
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        return res.status(200).json({ success: true, user });
+    } catch (error) {
+        console.error("Token verification error:", error);
+        return res.status(401).json({ success: false, message: "Invalid or expired token" });
+    }
+};

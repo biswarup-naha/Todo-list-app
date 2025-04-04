@@ -7,32 +7,16 @@ import { motion } from 'framer-motion';
 import { Plus, Trash2, Edit2 } from "lucide-react";
 import TodoModal from '../components/TodoModal.jsx';
 import { toast } from 'sonner';
+import { dateParser } from '@biswarup598/date-parser';
 
 const UserPage = () => {
   const navigate = useNavigate();
-  const { authenticated, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     fetchTasks()
-  }, [])
-
-  function dateParser(rawDate, locale="en-IN") {
-    const date = new Date(rawDate);
-    const parsedTime = date.toLocaleTimeString(locale, {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    const parsedDate = date.toLocaleDateString(locale, {
-      day: "2-digit",
-      month: "2-digit",
-      year: "2-digit",
-    });
-
-    return [parsedDate, parsedTime]
-  }
+  }, []);
 
   async function fetchTasks() {
     const res = await axios.get("http://localhost:5000/api/v1/todos", {withCredentials: true})
@@ -50,18 +34,14 @@ const UserPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!authenticated) navigate("/")
-  })
-
   return (
-    authenticated && <div className='bg-gray-800'>
+    user && <div className='bg-gray-900'>
       <Navbar name="Log out" path="/user" logout={true} />
-      <h1 className='text-3xl text-center p-6 text-white font-extrabold'>Welcome {user.name}!!</h1>
+      <h1 className='text-3xl text-center pt-8 font-extrabold text-neutral-300'>Welcome {user.name}!!</h1>
+      <p className='text-neutral-200 text-xl text-center'>What's on your mind today?</p>
       <div className="min-h-screen flex flex-col items-center p-6 bg-slate-900">
-        <div className="relative w-full max-w-lg">
-          <div
-            className="absolute -top-12 right-0 bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
+        <div className="fixed bottom-6 right-6 z-50">
+          <div className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-6 px-10">
             <TodoModal edit={false} todo={{}} fetchTasks={fetchTasks} />
           </div>
         </div>

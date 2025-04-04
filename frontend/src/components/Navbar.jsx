@@ -5,21 +5,22 @@ import { toast } from 'sonner';
 import axios from 'axios'
 
 const Navbar = ({ name, path, logout }) => {
-    const { setAuthenticated, setUser } = useContext(AuthContext);
+    const { signout, setUser } = useContext(AuthContext);
 
     const handleLogout = async () => {
-        localStorage.removeItem("authenticated");
-        localStorage.removeItem("user");
-        setAuthenticated(false);
-        setUser(null);
-        toast.success("User logged out")
+        // localStorage.removeItem("authenticated");
+        // localStorage.removeItem("user");
+        // setAuthenticated(false);
+        // setUser(null);
+        // toast.success("User logged out")
 
-        try {
-            await axios.post("http://localhost:5000/api/v1/user/logout")
-        } catch (error) {
-            console.log(error.response.data.message)
-            console.clear()
-        }
+        // try {
+        //     await axios.post("http://localhost:5000/api/v1/user/logout")
+        // } catch (error) {
+        //     console.log(error.response.data.message)
+        //     console.clear()
+        // }
+        signout();
     };
 
   return (

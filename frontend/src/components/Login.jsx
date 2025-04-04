@@ -1,47 +1,33 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContextApi";
 import axios from 'axios'
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 export function Login({ setIsLogin }) {
     const {
-        email,
-        phone,
-        password,
-        setEmail,
-        setPhone,
-        setPassword,
-        authenticated,
+        login,
+        logout,
+        loading,
         user,
-        setAuthenticated,
         setUser
     } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            const res = await axios
-                .post("http://localhost:5000/api/v1/user/login", {
-                    email,
-                    phone,
-                    password,
-                }, {withCredentials:true});
-
-            // console.log(res.data)
-            setUser(res.data.data);
-            setAuthenticated(true);
-            toast.success("User logged in")
-            navigate("/user")
-        } catch (error) {
-            console.log(error)
-            toast.error(error.response.data.message)
-        }
+        await login({ email, phone, password }, navigate);
     };
 
     return (
+        loading ? <Loading /> :
+            user ? navigate("/user") :
         <div className="flex items-center justify-center min-h-screen text-white">
             <form className="p-8 rounded-2xl shadow-2xl text-center w-96" onSubmit={e=>handleLogin(e)}>
                 <h2 className="text-3xl font-bold mb-4 text-purple-400">Login</h2>
