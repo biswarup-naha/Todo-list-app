@@ -23,7 +23,7 @@ const Navbar = ({ name, path, logout }) => {
     };
 
   return (
-      <nav className="bg-gray-800 shadow-md p-4 w-full fixed top-0 left-0 flex justify-between items-center relative">
+      <nav className="bg-gray-800 shadow-md p-4 w-full top-0 left-0 flex justify-between items-center relative">
           <h1 className="text-2xl font-bold text-purple-400 ml-4">Task<span className="text-white">Grid</span></h1>
           <div className="mr-4">
               <Link to={path}>

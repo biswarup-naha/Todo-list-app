@@ -28,7 +28,7 @@ export function Login({ setIsLogin }) {
                     email,
                     phone,
                     password,
-                });
+                }, {withCredentials:true});
 
             // console.log(res.data)
             setUser(res.data.data);
