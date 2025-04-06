@@ -1,3 +1,7 @@
+Sure! Here's an updated version of your `README.md` with **Swagger API documentation** section included:
+
+---
+
 # 📝TaskGrid
 
 This project provides a **complete backend API** for managing a To-Do list application using **Express.js**. It supports full **CRUD operations** with data validation using the **Zod** schema validation library.
@@ -6,20 +10,21 @@ This project provides a **complete backend API** for managing a To-Do list appli
 
 ## 🚀 Features
 
-- 🔧 **Create, Read, Update, Delete** todos
-- ✅ **Validation middleware** using [Zod](https://zod.dev/)
-- 🧪 Easy to test using Postman, Thunder Client, or curl
+- 🔧 **Create, Read, Update, Delete** todos  
+- ✅ **Validation middleware** using [Zod](https://zod.dev/)  
+- 📘 **Interactive API Docs** with [Swagger UI](https://swagger.io/tools/swagger-ui/)  
+- 🧪 Easy to test using Postman, Thunder Client, or curl  
 - 🌱 Built for integration with a React frontend using Vite
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Express.js, Node.js, MongoDB
-- **Frontend**: React, TailwindCSS, MUI, React Router, Axios
-- Animation: Framer-motion
-- **Validation**: Zod
-- **Tooling**: Vite, ESLint
+- **Backend**: Express.js, Node.js, MongoDB  
+- **Frontend**: React, TailwindCSS, MUI, React Router, Axios  
+- 🎞️ Animation: Framer-motion  
+- 🔐 **Validation**: Zod  
+- ⚙️ **Tooling**: Vite, ESLint
 
 ---
 
@@ -49,71 +54,19 @@ Server will start at: `http://localhost:5000`
 http://localhost:5000/api/v1/todos
 ```
 
-### 🔹 Create Todo
+### 🔹 Swagger Docs
 
-- **POST** `/create`
-- **Request Body**:
+Access full API documentation via Swagger UI:
 
-```json
-{
-  "title": "Buy groceries",
-  "description": "Milk, Eggs, Bread",
-  "completed": false
-}
-```
+👉 `http://localhost:5000/api-docs`
 
-- **Response**:
+Here you can interactively explore and test the API, including:
 
-```json
-{
-  "success": true,
-  "data": { "_id": "...", "title": "...", "description": "...", "completed": false }
-}
-```
+- Authentication flow (JWT)
+- Todos CRUD endpoints
+- Error formats and status codes
 
----
-
-### 🔹 Get All Todos
-
-- **GET** `/`
-
-- **Response**:
-
-```json
-{
-  "success": true,
-  "data": [ { "_id": "...", "title": "...", "completed": false }, ... ]
-}
-```
-
----
-
-### 🔹 Update Todo
-
-- **PUT** `/:id`
-- **Request Body**:
-
-```json
-{
-  "title": "Buy groceries and veggies",
-  "completed": true
-}
-```
-
----
-
-### 🔹 Delete Todo
-
-- **DELETE** `/:id`
-
-- **Response**:
-
-```json
-{
-  "success": true,
-  "message": "Todo deleted successfully"
-}
-```
+> Swagger is auto-generated from a `swagger.yaml` file and served using `swagger-ui-express`.
 
 ---
 
@@ -121,7 +74,7 @@ http://localhost:5000/api/v1/todos
 
 We use **Zod** to define schemas for validating incoming request data during creation and updating of todos.
 
-### Example Schema:
+### Example Schema
 
 ```ts
 const todoSchema = z.object({
@@ -142,6 +95,7 @@ You can test the API using tools like:
 - [Postman](https://www.postman.com/)
 - [Thunder Client (VSCode)](https://www.thunderclient.com/)
 - `curl` CLI
+- 🔍 Swagger UI (`/api-docs`)
 
 ---
 
@@ -149,12 +103,12 @@ You can test the API using tools like:
 
 The frontend is set up with:
 
-- React 19
-- Tailwind CSS 4
-- MUI 7
-- Framer Motion
-- React Router 7
-- Axios (Data Fetching)
+- React 19  
+- Tailwind CSS 4  
+- MUI 7  
+- Framer Motion  
+- React Router 7  
+- Axios (Data Fetching)  
 - Sonner (Toasts)
 
 Use the following commands:
@@ -173,4 +127,4 @@ MIT License © 2025
 
 ---
 
-Would you like a `todoController.js` + `todoValidator.js` boilerplate to go with this?
+Let me know if you want that `todoController.js` + `todoValidator.js` boilerplate too — I can drop it right in!

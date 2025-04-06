@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 export function Register({ setIsLogin }) {
-    const { setUser, setAuthenticated } = useContext(AuthContext);
+    const { setUser, login } = useContext(AuthContext);
 
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -22,11 +22,11 @@ export function Register({ setIsLogin }) {
                 password,
             });
             setUser(res.data.data);
-            setAuthenticated(true);
             toast.success("User registered successfully");
             setIsLogin(true); 
         } catch (error) {
             toast.error(error.response.data.message)
+            console.log(error)
         }
     };
 
