@@ -1,0 +1,371 @@
+openapi: 3.0.0
+info:
+  title: Todo API
+  description: API for managing todos and users
+  version: 1.0.0
+  
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    Todo:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The auto-generated ID of the todo
+        title:
+          type: string
+          description: Title of the todo item
+        description:
+          type: string
+          description: Detailed description of the todo item
+        completed:
+          type: boolean
+          description: Status of the todo item
+        user:
+          type: string
+          description: User ID associated with this todo
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - title
+    
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The auto-generated ID of the user
+        username:
+          type: string
+          description: Username for login
+        email:
+          type: string
+          format: email
+          description: User's email address
+        password:
+          type: string
+          description: User's password (hashed, never returned in responses)
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - username
+        - email
+        - password
+    
+    LoginCredentials:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+    
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT authentication token
+        user:
+          $ref: '#/components/schemas/User'
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        status:
+          type: integer
+          description: HTTP status code
+
+paths:
+  /todos:
+    get:
+      summary: Get all todos for the authenticated user
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: A list of todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new todo
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title of the todo
+                description:
+                  type: string
+                  description: Detailed description of the todo
+                completed:
+                  type: boolean
+                  description: Status of the todo
+              required:
+                - title
+      responses:
+        '201':
+          description: Todo created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /todos/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: The todo ID
+    get:
+      summary: Get a specific todo by ID
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Todo details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a specific todo
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                completed:
+                  type: boolean
+      responses:
+        '200':
+          description: Todo updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete a specific todo
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Todo deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Todo deleted successfully
+        '404':
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /users/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              required:
+                - username
+                - email
+                - password
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid request or user already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /users/login:
+    post:
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /users/logout:
+    post:
+      summary: Logout user
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User logged out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logged out successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /users/verify:
+    get:
+      summary: Verify user token
+      parameters:
+        - in: query
+          name: token
+          schema:
+            type: string
+          description: JWT token to verify
+      responses:
+        '200':
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
