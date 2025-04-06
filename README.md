@@ -1,7 +1,3 @@
-Sure! Here's an updated version of your `README.md` with **Swagger API documentation** section included:
-
----
-
 # 📝TaskGrid
 
 This project provides a **complete backend API** for managing a To-Do list application using **Express.js**. It supports full **CRUD operations** with data validation using the **Zod** schema validation library.
